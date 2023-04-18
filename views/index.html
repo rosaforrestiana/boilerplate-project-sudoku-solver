@@ -2,354 +2,174 @@
 <html>
 
 <head>
-	<title>Sudoku Solver</title>
+  <title>Sudoku Solver</title>
 	<meta name="description" content="An example for the fCC QA Sudoku Solver project" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
     <link id="favicon" rel="icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon">
-	<link rel="stylesheet" href="../public/style.css" type="text/css" />
+  <link href="/public/output.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-	<header>
-		<h1>Sudoku Solver</h1>
+<div class="min-h-screen max-h-fit bg-teal-50 flex flex-col mx-auto px-4 lg:items-center">
+	<header class="font-serif text-center py-2 md:py-4">
+		<h1 class="text-teal-500 font-bold text-[1.5rem] md:text-[2rem]">Sudoku Solver</h1>
 	</header>
-	<div class="container">
-		<div class="form-container">
-			<form id="solve-form">
-				<textarea
+<!--   npx tailwindcss -i ./public/style.css -o ./public/output.css --watch -->
+	<div class="flex flex-1 flex-col items-center font-sans m-2 p-2 md:p-4 lg:w-[70%]">
+		<div class="w-full max-w-full flex flex-wrap self-start justify-between items-between">
+			<form id="solve-form" class="basis-full">
+				<textarea 
           rows="10"
           cols="85"
           id="text-input"
           name="puzzle"
+          class="overflow-hidden tracking-[.4rem] min-h-12 h-24 max-h-48 max-w-full text-lg w-full mb-2 text-teal-600 px-2 border-2 border-teal-500 shadow-md focus:transition-shadow focus:shadow-teal-500 focus-visible:outline-none"
         ></textarea>
-        <br />
-        <input type="button" value="Solve" id="solve-button"/>
-        <div id="error-msg"></div>
+        <br>
+        <input type="button" class="border-2 border-teal-50 bg-teal-500 hover:bg-teal-700 hover:border-teal-200 text-white font-bold py-2 px-4 rounded block mx-auto transition ease-in-out duration-200 border-teal-50 shadow md:shadow-md shadow-teal-500 focus:shadow-[inset_0_0_2px_3px_rgba(15,118,110,0.7)]  focus:transition-shadow" value="Solve" id="solve-button"/>
+        <div id="error-msg" class="text-red-600"></div>
         </form>
-        <form id="check-form">
-          <p>Coordinate (A1): <input id="coord" class="checker" type="text" name="coordinate"></p>
-          <p>Value (1-9): <input class="checker" type="text" id="val" name="value"></p>
-          <input type="button" id="check-button" value="Check Placement">
+        <form id="check-form" class="flex-1 flex flex-col justify-center w-1/2">
+          <div class="flex flex-wrap justify-center px-2">
+          <div class="flex flex-col flex-1 m-2 text-teal-700 max-w-fit">Coordinate (A1): <input id="coord" class="checker border-2 border-teal-500 pl-2 shadow-md focus:transition-shadow focus:shadow-teal-500 focus-visible:outline-none" type="text" name="coordinate"></div>
+          <div class="flex flex-col flex-1 m-2 text-teal-700 max-w-fit">Value (1-9): <input class="checker border-2 border-teal-500 pl-2 shadow-md focus:transition-shadow focus:shadow-teal-500 focus-visible:outline-none" type="text" id="val" name="value"></div>
+          </div>
+          <input type="button" id="check-button" class="bg-teal-500 border-2 border-teal-50 hover:bg-teal-700 hover:border-teal-200 text-white font-bold py-2 px-4 rounded block mx-auto my-2 transition ease-in-out border-teal-50 shadow md:shadow-md shadow-teal-500 focus:transition-shadow focus-visible:outline-none focus:shadow-[inset_0_0_2px_3px_rgba(15,118,110,0.7)]" value="Check Placement">
         </form>
         <span id="error"></span>
       </div>
-      
-        <div id="sudoku-grid-container">
-        <div>
-          <table class="yAxisLegend">
-            <tr>
-              <td>A</td>
-            </tr>
-            <tr>
-              <td>B</td>
-            </tr>
-            <tr>
-              <td>C</td>
-            </tr>
-            <tr>
-              <td>D</td>
-            </tr>
-            <tr>
-              <td>E</td>
-            </tr>
-            <tr>
-              <td>F</td>
-            </tr>
-            <tr>
-              <td>G</td>
-            </tr>
-            <tr>
-              <td>H</td>
-            </tr>
-            <tr>
-              <td>I</td>
-            </tr>
-          </table>
+
+      <div class="flex justify-center">
+        <div id="sudoku-grid" class="text-center border-r-2 border-b-2 border-solid border-black text-lg md:text-2xl shadow-[4px_4px_3px_1px_rgba(0,0,0,0.3)]">
+          <div class="yAxisLegend font-bold self-end text-white bg-teal-700">
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">A</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">B</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">C</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">D</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">E</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">F</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">G</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">H</div>
+              <div class="border-2 border-solid border-black p-1.25 w-[2em] h-[2em] flex flex-col justify-center">I</div>
         </div>
-        <div id="sudoku-grid">
-          <table class="xAxisLegend">
-            <tr>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
-              <td>8</td>
-              <td>9</td>
-            </tr>
-          </table>
-          <table class="grid">
-            <tbody>
-              <tr>
-                <td class="A1 sudoku-input" title="A1">
-                  
-                </td>
-                <td class="A2 sudoku-input" title="A2">
-                  
-                </td>
-                <td class="A3 sudoku-input" title="A3">
-                  
-                </td>
-                <td class="A4 sudoku-input" title="A4">
-                  
-                </td>
-                <td class="A5 sudoku-input" title="A5">
-                  
-                </td>
-                <td class="A6 sudoku-input" title="A6">
-                  
-                </td>
-                <td class="A7 sudoku-input" title="A7">
-                  
-                </td>
-                <td class="A8 sudoku-input" title="A8">
-                  
-                </td>
-                <td class="A9 sudoku-input" title="A9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="B1 sudoku-input" title="B1">
-                  
-                </td>
-                <td class="B2 sudoku-input" title="B2">
-                  
-                </td>
-                <td class="B3 sudoku-input" title="B3">
-                  
-                </td>
-                <td class="B4 sudoku-input" title="B4">
-                  
-                </td>
-                <td class="B5 sudoku-input" title="B5">
-                  
-                </td>
-                <td class="B6 sudoku-input" title="B6">
-                  
-                </td>
-                <td class="B7 sudoku-input" title="B7">
-                  
-                </td>
-                <td class="B8 sudoku-input" title="B8">
-                  
-                </td>
-                <td class="B9 sudoku-input" title="B9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="C1 sudoku-input" title="C1">
-                  
-                </td>
-                <td class="C2 sudoku-input" title="C2">
-                  
-                </td>
-                <td class="C3 sudoku-input" title="C3">
-                  
-                </td>
-                <td class="C4 sudoku-input" title="C4">
-                  
-                </td>
-                <td class="C5 sudoku-input" title="C5">
-                  
-                </td>
-                <td class="C6 sudoku-input" title="C6">
-                  
-                </td>
-                <td class="C7 sudoku-input" title="C7">
-                  
-                </td>
-                <td class="C8 sudoku-input" title="C8">
-                  
-                </td>
-                <td class="C9 sudoku-input" title="C9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="D1 sudoku-input" title="D1">
-                  
-                </td>
-                <td class="D2 sudoku-input" title="D2">
-                  
-                </td>
-                <td class="D3 sudoku-input" title="D3">
-                  
-                </td>
-                <td class="D4 sudoku-input" title="D4">
-                  
-                </td>
-                <td class="D5 sudoku-input" title="D5">
-                  
-                </td>
-                <td class="D6 sudoku-input" title="D6">
-                  
-                </td>
-                <td class="D7 sudoku-input" title="D7">
-                  
-                </td>
-                <td class="D8 sudoku-input" title="D8">
-                  
-                </td>
-                <td class="D9 sudoku-input" title="D9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="E1 sudoku-input" title="E1">
-                  
-                </td>
-                <td class="E2 sudoku-input" title="E2">
-                  
-                </td>
-                <td class="E3 sudoku-input" title="E3">
-                  
-                </td>
-                <td class="E4 sudoku-input" title="E4">
-                  
-                </td>
-                <td class="E5 sudoku-input" title="E5">
-                  
-                </td>
-                <td class="E6 sudoku-input" title="E6">
-                  
-                </td>
-                <td class="E7 sudoku-input" title="E7">
-                  
-                </td>
-                <td class="E8 sudoku-input" title="E8">
-                  
-                </td>
-                <td class="E9 sudoku-input" title="E9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="F1 sudoku-input" title="F1">
-                  
-                </td>
-                <td class="F2 sudoku-input" title="F2">
-                  
-                </td>
-                <td class="F3 sudoku-input" title="F3">
-                  
-                </td>
-                <td class="F4 sudoku-input" title="F4">
-                  
-                </td>
-                <td class="F5 sudoku-input" title="F5">
-                  
-                </td>
-                <td class="F6 sudoku-input" title="F6">
-                  
-                </td>
-                <td class="F7 sudoku-input" title="F7">
-                  
-                </td>
-                <td class="F8 sudoku-input" title="F8">
-                  
-                </td>
-                <td class="F9 sudoku-input" title="F9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="G1 sudoku-input" title="G1">
-                  
-                </td>
-                <td class="G2 sudoku-input" title="G2">
-                  
-                </td>
-                <td class="G3 sudoku-input" title="G3">
-                  
-                </td>
-                <td class="G4 sudoku-input" title="G4">
-                  
-                </td>
-                <td class="G5 sudoku-input" title="G5">
-                  
-                </td>
-                <td class="G6 sudoku-input" title="G6">
-                  
-                </td>
-                <td class="G7 sudoku-input" title="G7">
-                  
-                </td>
-                <td class="G8 sudoku-input" title="G8">
-                  
-                </td>
-                <td class="G9 sudoku-input" title="G9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="H1 sudoku-input" title="H1">
-                  
-                </td>
-                <td class="H2 sudoku-input" title="H2">
-                  
-                </td>
-                <td class="H3 sudoku-input" title="H3">
-                  
-                </td>
-                <td class="H4 sudoku-input" title="H4">
-                  
-                </td>
-                <td class="H5 sudoku-input" title="H5">
-                  
-                </td>
-                <td class="H6 sudoku-input" title="H6">
-                  
-                </td>
-                <td class="H7 sudoku-input" title="H7">
-                  
-                </td>
-                <td class="H8 sudoku-input" title="H8">
-                  
-                </td>
-                <td class="H9 sudoku-input" title="H9">
-                  
-                </td>
-              </tr>
-              <tr>
-                <td class="I1 sudoku-input" title="I1">
-                  
-                </td>
-                <td class="I2 sudoku-input" title="I2">
-                  
-                </td>
-                <td class="I3 sudoku-input" title="I3">
-                  
-                </td>
-                <td class="I4 sudoku-input" title="I4">
-                  
-                </td>
-                <td class="I5 sudoku-input" title="I5">
-                  
-                </td>
-                <td class="I6 sudoku-input" title="I6">
-                  
-                </td>
-                <td class="I7 sudoku-input" title="I7">
-                  
-                </td>
-                <td class="I8 sudoku-input" title="I8">
-                  
-                </td>
-                <td class="I9 sudoku-input" title="I9">
-                  
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="xAxisLegend flex justify-center items-center border-3 border-solid border-black font-bold w-min text-white bg-teal-700">
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">1</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">2</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">3</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">4</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">5</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">6</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">7</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">8</div>
+              <div class="border-2 border-solid border-black w-[2em] h-[2em] text-center p-1.25 pb-0 flex flex-col justify-center">9</div>
+          </div>
+          <div id="sudoku" class="border-3 border-solid">
+              <div class="flex">
+                <div class="A1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="A1"></div>
+                <div class="A2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="A2"></div>
+                <div class="A3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black-700 border-t-black" title="A3"></div>
+                <div class="A4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black-700 border-t-black border-l-black" title="A4"></div>
+                <div class="A5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="A5"></div>
+                <div class="A6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="A6"></div>
+                <div class="A7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="A7"></div>
+                <div class="A8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="A8"></div>
+                <div class="A9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-r-black" title="A9"></div>
+              </div>
+              <div class="flex">
+                <div class="B1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="B1"></div>
+                <div class="B2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="B2"></div>
+                <div class="B3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="B3"></div>
+                <div class="B4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="B4"></div>
+                <div class="B5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="B5"></div>
+                <div class="B6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="B6"></div>
+                <div class="B7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="B7"></div>
+                <div class="B8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="B8"></div>
+                <div class="B9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black" title="B9"></div>
+              </div>
+              <div class="flex">
+                <div class="C1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="C1"></div>
+                <div class="C2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="C2"></div>
+                <div class="C3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="C3"></div>
+                <div class="C4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="C4"></div>
+                <div class="C5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="C5"></div>
+                <div class="C6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="C6"></div>
+                <div class="C7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="C7"></div>
+                <div class="C8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="C8"></div>
+                <div class="C9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black" title="C9"></div>
+              </div>
+              <div class="flex">
+                <div class="D1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="D1"></div>
+                <div class="D2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="D2"></div>
+                <div class="D3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="D3"></div>
+                <div class="D4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="D4"></div>
+                <div class="D5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="D5"></div>
+                <div class="D6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="D6"></div>
+                <div class="D7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="D7"></div>
+                <div class="D8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="D8"></div>
+                <div class="D9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-r-black" title="D9"></div>
+              </div>
+              <div class="flex">
+                <div class="E1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="E1"></div>
+                <div class="E2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="E2"></div>
+                <div class="E3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="E3"></div>
+                <div class="E4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="E4"></div>
+                <div class="E5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="E5"></div>
+                <div class="E6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="E6"></div>
+                <div class="E7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="E7"></div>
+                <div class="E8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="E8"></div>
+                <div class="E9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black" title="E9"></div>
+              </div>
+              <div class="flex">
+                <div class="F1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="F1"></div>
+                <div class="F2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="F2"></div>
+                <div class="F3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="F3"></div>
+                <div class="F4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="F4"></div>
+                <div class="F5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="F5"></div>
+                <div class="F6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="F6"></div>
+                <div class="F7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="F7"></div>
+                <div class="F8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="F8"></div>
+                <div class="F9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black" title="F9"></div>
+              </div>
+              <div class="flex">
+                <div class="G1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="G1"></div>
+                <div class="G2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="G2"></div>
+                <div class="G3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="G3"></div>
+                <div class="G4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="G4"></div>
+                <div class="G5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="G5"></div>
+                <div class="G6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="G6"></div>
+                <div class="G7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-l-black" title="G7"></div>
+                <div class="G8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black" title="G8"></div>
+                <div class="G9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-t-black border-r-black" title="G9"></div>
+              </div>
+              <div class="flex">
+                <div class="H1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="H1"></div>
+                <div class="H2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="H2"></div>
+                <div class="H3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="H3"></div>
+                <div class="H4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="H4"></div>
+                <div class="H5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="H5"></div>
+                <div class="H6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="H6"></div>
+                <div class="H7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black" title="H7"></div>
+                <div class="H8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25" title="H8"></div>
+                <div class="H9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black" title="H9"></div>
+              </div>
+              <div class="flex">
+                <div class="I1 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black border-b-black" title="I1"></div>
+                <div class="I2 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-b-black" title="I2"></div>
+                <div class="I3 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-b-black" title="I3"></div>
+                <div class="I4 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black border-b-black" title="I4"></div>
+                <div class="I5 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-b-black" title="I5"></div>
+                <div class="I6 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-b-black" title="I6"></div>
+                <div class="I7 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-l-black border-b-black" title="I7"></div>
+                <div class="I8 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-b-black" title="I8"></div>
+                <div class="I9 flex justify-center items-center border-2 border-solid border-teal-700 w-[2em] h-[2em] text-center p-1.25 border-r-black border-b-black" title="I9"></div>
+              </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   </body>
   <script type="module" src="../public/index.js"></script>
 </html>
